@@ -1,29 +1,67 @@
-# IT 140 Module Four Assignment
-# Higher/Lower Game Pseudocode Template
-#
-# Complete the TODO prompts below with your own pseudocode.
-# Keep this file in .pseudo format for submission.
-#
-# Use clear indentation to show decisions and repeated behavior.
-# Your finished pseudocode should address every requirement in the
-# current Module Four Assignment Guidelines and Rubric.
+Guessing Game Pseudocode
+# Behavior: ask for lower & upper bounds (lower < upper), generate random integer in [lower, upper],
+# repeatedly prompt for a guess (validated to be between bounds) and tell user: too low / too high / correct.
 
-START hilow_game
+MAIN:
+  seed random number generator (optional, for languages that require it)
 
-    # Establish a valid guessing range.
-    TODO: Obtain the lower and upper bounds.
-    TODO: Repeat as needed until the bounds satisfy the requirement.
+  # --- Get valid bounds ---
+  LOOP until valid_bounds_obtained:
+    prompt "Enter the LOWER bound (integer):"
+    read input_lower_raw
+    if input_lower_raw is not a valid integer:
+      print "Invalid input. Please enter an integer."
+      continue LOOP
 
-    # Establish the number the player is trying to guess.
-    TODO: Generate the required random number from the valid range.
+    prompt "Enter the UPPER bound (integer):"
+    read input_upper_raw
+    if input_upper_raw is not a valid integer:
+      print "Invalid input. Please enter an integer."
+      continue LOOP
 
-    # Play the game.
-    TODO: Obtain and validate a guess using the selected bounds.
-    TODO: Repeat the required game behavior until the correct guess.
-        TODO: Compare a valid guess and provide the required feedback.
-        TODO: Obtain and validate another guess when play continues.
+    lower <- integer value of input_lower_raw
+    upper <- integer value of input_upper_raw
 
-END hilow_game
+    if lower >= upper:
+      print "Invalid range. The lower bound must be less than the upper bound. Try again."
+      continue LOOP
 
-# === References ===
-# TODO: Add references for sources you used, or delete this line if unused.
+    valid_bounds_obtained <- true
+
+  # --- Generate random target ---
+  target <- random integer between lower and upper inclusive
+
+  # Optional: track attempts
+  attempts <- 0
+
+  # --- Guess loop ---
+  LOOP forever:
+    prompt "Guess a number between [lower] and [upper]:"
+    read guess_raw
+
+    if guess_raw is not a valid integer:
+      print "Invalid input. Please enter an integer."
+      continue LOOP
+
+    guess <- integer value of guess_raw
+
+    if guess < lower or guess > upper:
+      print "Your guess must be between [lower] and [upper]. Try again."
+      continue LOOP
+
+    attempts <- attempts + 1
+
+    if guess < target:
+      print "Too low. Try again."
+      # continue LOOP
+    else if guess > target:
+      print "Too high. Try again."
+      # continue LOOP
+    else:
+      # guess == target
+      print "Correct! You guessed the number", target, "in", attempts, "attempt(s)."
+      break LOOP
+
+  print "Game over. Thank you for playing."
+END MAIN
+# i got help from my freind: Eminou Haddou eminouismail@gmail.com
